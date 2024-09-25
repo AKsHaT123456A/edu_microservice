@@ -15,6 +15,7 @@ type Config struct {
 	DBName   string
 	SSLMode  string
 	Link     string
+	HostPort string
 }
 
 func LoadConfig() (Config, error) {
@@ -34,6 +35,7 @@ func LoadConfig() (Config, error) {
 	config.DBName = getEnv("DBName", "edumarshal_db") // default to "edumarshal_db"
 	config.SSLMode = getEnv("SSLMode", "require")     // default to "disable"
 	config.Link = getEnv("LINK", "http://localhost")  // default to "http://localhost"
+	config.HostPort = getEnv("HOSTPORT", "3000") // default
 	return config, nil
 }
 
