@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	api "edumarshal.com/api/api"
-	config "edumarshal.com/api/config"
 	db "edumarshal.com/api/db"
 	"edumarshal.com/api/middleware"
 )
@@ -60,16 +60,19 @@ func main() {
 	}()
 
 	// Load configuration
-	conf, err := config.LoadConfig()
+	// _, err := config.LoadConfig()
 	if err != nil {
 		log.Fatalf("Error loading config: %v", err)
 	}
-	port := conf.HostPort
+
+	// Use PORT environment variable or fallback to a default value
+	port := os.Getenv("HOSTPORT")
+
 	if port == "" {
-		port = "4000"
+		port = "4000" // Default port for local development
 	}
 
-	// Log server start message before starting the server
+	// Log server start message
 	log.Printf("Server starting on port %s", port)
 
 	// Start the server
