@@ -46,8 +46,8 @@ func UserLoginPost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
 	}
-
-	user, err := utils.GetUserByUsername(credentials.Username)
+	log.Println("Credentials", credentials)
+	user, err := utils.GetUserByUsername(credentials.Username, credentials.DOB)
 	if err != nil {
 		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
 		return
@@ -64,17 +64,24 @@ func UserLoginPost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to generate token", http.StatusInternalServerError)
 		return
 	}
-
 	response := struct {
-		Token    string `json:"token"`
-		Username string `json:"username"`
-		StudentName string `json:"studentName,omitempty"`
+		Token                string `json:"token"`
+		Username             string `json:"username"`
+		StudentName          string `json:"studentName,omitempty"`
+		DOB                  string `json:"dob,omitempty"`
+		Email                string `json:"email,omitempty"`
+		StudentNumber        string `json:"studentNumber,omitempty"`
+		UniversityRollNumber int64  `json:"universityRollNumber,omitempty"`
 	}{
-		Token:    token,
-		Username: user.Username,
-		StudentName: user.StudentName,
+		Token:                token,
+		Username:             user.Username,
+		StudentName:          user.StudentName,
+		DOB:                  user.DOB,
+		Email:                user.Email,
+		StudentNumber:        user.StudentNumber,
+		UniversityRollNumber: user.UniversityRollNumber,
 	}
-	fmt.Print(response)
+	fmt.Print(user)
 	w.Header().Set("Content-Type", "application/json")
 	err = json.NewEncoder(w).Encode(response)
 	if err != nil {

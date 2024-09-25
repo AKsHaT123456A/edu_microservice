@@ -25,16 +25,17 @@ func InsertUser(user models.User) error {
 }
 
 // GetUserByUsername retrieves a user by username from the database
-func GetUserByUsername(username string) (*models.User, error) {
+func GetUserByUsername(username string, dob string) (*models.User, error) {
+	log.Println("Username", dob)
 	db, err := db.DB()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get database connection: %w", err)
 	}
 
 	var user models.User
-	if err := db.Where("username = ?", username).First(&user).Error; err != nil {
+	if err := db.Where("username = ? AND dob = ?", username, dob).First(&user).Error; err != nil {
 		return nil, fmt.Errorf("failed to find user: %w", err)
-	}
+	}	
 	fmt.Println(user)
 	return &user, nil
 }

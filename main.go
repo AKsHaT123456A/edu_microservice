@@ -13,7 +13,6 @@ func main() {
 	server := http.NewServeMux()
 	signingKey := []byte("aadfsfkdskmdkfmdkdfd")
 	middleware.InitJWTMiddleware(signingKey)
-	// Default welcome message at /
 	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
@@ -34,6 +33,7 @@ func main() {
 
 	// Handler for /api/v1/auth/login
 	server.HandleFunc("/api/v1/auth/login", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Request received: %v", r)
 		if r.Method != http.MethodPost {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
@@ -43,7 +43,7 @@ func main() {
 
 	// Database connection check
 	_, err := db.DB()
-	if err != nil { 
+	if err != nil {
 		log.Fatalf("Error connecting to the database: %v", err)
 	}
 

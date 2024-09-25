@@ -2,6 +2,7 @@ package models
 
 type User struct {
 	ID           uint   `json:"id" gorm:"primaryKey;autoIncrement"`
+	ProfileImage string `json:"profileImage"`
 	Username     string `json:"username"`
     StudentName string `json:"studentName"`
     Email        string `json:"email"`

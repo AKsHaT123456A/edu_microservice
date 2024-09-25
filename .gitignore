@@ -1,2 +1,4 @@
 .air.toml
 go.mod
+config.json
+.env
