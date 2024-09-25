@@ -72,6 +72,7 @@ func UserLoginPost(w http.ResponseWriter, r *http.Request) {
 		Email                string `json:"email,omitempty"`
 		StudentNumber        string `json:"studentNumber,omitempty"`
 		UniversityRollNumber int64  `json:"universityRollNumber,omitempty"`
+		ProfileImage         string `json:"profileImage,omitempty"`
 	}{
 		Token:                token,
 		Username:             user.Username,
@@ -80,6 +81,7 @@ func UserLoginPost(w http.ResponseWriter, r *http.Request) {
 		Email:                user.Email,
 		StudentNumber:        user.StudentNumber,
 		UniversityRollNumber: user.UniversityRollNumber,
+		ProfileImage:         user.ProfileImage,
 	}
 	fmt.Print(user)
 	w.Header().Set("Content-Type", "application/json")
