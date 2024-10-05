@@ -16,12 +16,12 @@ type Config struct {
 	SSLMode  string
 	Link     string
 	HostPort string
+	JWT_SIGN_KEY string
 }
 
 func LoadConfig() (Config, error) {
 	var config Config
 
-	// Load environment variables from .env file
 	err := godotenv.Load()
 	if err != nil {
 		log.Println("Error loading .env file, using default environment variables")
@@ -36,6 +36,7 @@ func LoadConfig() (Config, error) {
 	config.SSLMode = getEnv("SSLMode", "require")     // default to "disable"
 	config.Link = getEnv("LINK", "http://localhost")  // default to "http://localhost"
 	config.HostPort = getEnv("HOSTPORT", "3000") // default
+	config.JWT_SIGN_KEY = getEnv("JWT_SIGN_KEY", "") // default to ""
 	return config, nil
 }
 

@@ -1,42 +1,44 @@
 package middleware
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
-	jwtmiddleware "github.com/auth0/go-jwt-middleware"
-	"github.com/form3tech-oss/jwt-go"
-	"github.com/gorilla/context"
+	"edumarshal.com/api/auth"
 )
 
-var jwtMiddleware *jwtmiddleware.JWTMiddleware
-
-// InitJWTMiddleware initializes the JWT middleware with the signing key.
-func InitJWTMiddleware(signingKey []byte) {
-	jwtMiddleware = jwtmiddleware.New(jwtmiddleware.Options{
-		ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
-			return signingKey, nil
-		},
-		SigningMethod: jwt.SigningMethodHS256,
-	})
+func extractToken(r *http.Request) (string, error) {
+	authHeader := r.Header.Get("Authorization")
+	fmt.Println(authHeader)
+	if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+		return "", fmt.Errorf("missing or malformed authorization header")
+	}
+	return strings.TrimPrefix(authHeader, "Bearer "), nil
 }
 
-// JWTMiddleware is the middleware for validating JWT tokens.
 func JWTMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Check if JWT token is valid
+		w.Header().Set("Content-Type", "application/json")
 
-		err := jwtMiddleware.CheckJWT(w, r)
-		log.Println("JWT Middleware", err)
+		tokenString, err := extractToken(r)
 		if err != nil {
-			// Write an unauthorized response only if token validation fails
-			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			log.Println(err)
+			w.WriteHeader(http.StatusUnauthorized)
+			fmt.Fprint(w, err.Error())
 			return
 		}
-		// Set decoded JWT token in context
-		context.Set(r, "decoded", context.Get(r, "user"))
 
-		// Call the next handler if the JWT check passed
+		// Verify the access token
+		if !auth.VerifyToken(tokenString) {
+			log.Println("Invalid token")
+			w.WriteHeader(http.StatusUnauthorized)
+			fmt.Fprint(w, "Invalid token")
+			return
+		}
+
+		// Proceed with the request
 		next.ServeHTTP(w, r)
 	})
 }

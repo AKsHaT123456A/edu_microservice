@@ -21,6 +21,9 @@ require (
 	github.com/fatih/color v1.17.0 // indirect
 	github.com/form3tech-oss/jwt-go v3.2.2+incompatible // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
+	github.com/go-pg/pg v8.0.7+incompatible // indirect
+	github.com/go-pg/pg/v10 v10.13.0 // indirect
+	github.com/go-pg/zerochecker v0.2.0 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/gohugoio/hugo v0.126.1 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
@@ -48,11 +51,17 @@ require (
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
 	github.com/tdewolff/parse/v2 v2.7.14 // indirect
+	github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc // indirect
 	github.com/urfave/cli v1.22.15 // indirect
+	github.com/vmihailenco/bufpool v0.1.11 // indirect
+	github.com/vmihailenco/msgpack/v5 v5.3.4 // indirect
+	github.com/vmihailenco/tagparser v0.1.2 // indirect
+	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	golang.org/x/crypto v0.23.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 	gorm.io/driver/postgres v1.5.7 // indirect
 	gorm.io/gorm v1.25.10 // indirect
+	mellium.im/sasl v0.3.1 // indirect
 )
